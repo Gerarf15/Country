@@ -32,9 +32,9 @@ const {v4} = require("uuid")
 
 //mando un chico q me ayudo
 const postCountry = ( async (req, res) => {
-    const { name, difficulty, duration, season, idPais } = req.body;
+    const { name, difficulty, duration, season, countriesId } = req.body;
 
-    console.log(name, difficulty, duration, season, idPais, "infoooooo")
+    // console.log(name, difficulty, duration, season, countriesId, "infoooooo")
   
     try {
       const [activity, created] = await Activity.findOrCreate({
@@ -45,10 +45,10 @@ const postCountry = ( async (req, res) => {
           season,
         },
       });
-      console.log(activity, "aaaaaaaaa")
-      await activity.setCountries(idPais);
+      // console.log(activity, "aaaaaaaaa")
+      await activity.setCountries(countriesId);
   
-      res.status(200).json("Activity created");
+      res.status(201).json({data:activity, message: "Activity Register"});
     } catch (err) {
       console.log(err);
     }

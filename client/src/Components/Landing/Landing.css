@@ -1,0 +1,20 @@
+.Landing_container{
+    /* border: 1px solid blue; */
+    min-height: 52vh;
+    background: url("../../Assets/country.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 150px;
+}
+
+a{
+    /* border: 1px solid blue; */
+    text-decoration: none;
+    color: orangered;
+    font-size: 25px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+h1{
+    color: whitesmoke;
+}

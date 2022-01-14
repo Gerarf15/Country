@@ -74,7 +74,6 @@ const getCountryNameDb = async (name) =>{
 //busqueda por id
 const getIdFronDb = ( async (req, res) => {
     const { idPais } = req.params; //req from params
-    console.log(idPais)
     try {
       const countryId = await Country.findByPk(idPais.toUpperCase(), {
         include: {

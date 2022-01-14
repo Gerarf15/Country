@@ -1,9 +1,9 @@
 const { DataTypes } = require("sequelize");
 const SEASON = {
-  SUMMER: "Verano",
-  AUTUMN: "Otoño",
-  WINTER: "Invierno",
-  SPRING: "Primavera",
+  SUMMER: "summer",
+  AUTUMN: "auntumn",
+  WINTER: "winter",
+  SPRING: "sprint",
 };
 module.exports = (sequelize) => {
   sequelize.define("activity", {

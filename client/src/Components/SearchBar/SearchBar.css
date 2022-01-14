@@ -2,3 +2,18 @@
     /* border: 1px solid blue; */
     padding: 1rem 0px;
 }
+
+.search_container > form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.reset_btn, .filter_btn{
+    background-color: rgb(80, 80, 247);
+    
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+}

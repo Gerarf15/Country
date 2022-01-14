@@ -91,11 +91,11 @@ __IMPORTANTE__: No se permitirá utilizar librerías externas para aplicar estil
 Se debe desarrollar una aplicación de React/Redux que contenga las siguientes pantallas/rutas.
 
 __Pagina inicial__: deben armar una landing page con
-- [  ] Alguna imagen de fondo representativa al proyecto
+- [ ✅  ] Alguna imagen de fondo representativa al proyecto
 - [ ✅ ] Botón para ingresar al home (`Ruta principal`)
 
 __Ruta principal__: debe contener
-- [ ] Input de búsqueda para encontrar países por nombre
+- [ ✅ ] Input de búsqueda para encontrar países por nombre
 - [ ✅ ] Área donde se verá el listado de países. Al iniciar deberá cargar los primeros resultados obtenidos desde la ruta `GET /countries` y deberá mostrar su:
   - Imagen de la bandera
   - Nombre
@@ -114,12 +114,12 @@ __Ruta de detalle de país__: debe contener
 - [ ] Actividades turísticas con toda su información asociada
 
 __Ruta de creación de actividad turística__: debe contener
-- [ ] Un formulario __controlado con JavaScript__ con los siguientes campos:
+- [ ✅ ] Un formulario __controlado con JavaScript__ con los siguientes campos:
   - Nombre
   - Dificultad
   - Duración
   - Temporada
-- [ ] Posibilidad de seleccionar/agregar varios países en simultáneo
+- [ ✅ ] Posibilidad de seleccionar/agregar varios países en simultáneo
 - [ ] Botón/Opción para crear una nueva actividad turística
 
 > Es requisito que el formulario de creación esté validado con JavaScript y no sólo con validaciones HTML. Pueden agregar las validaciones que consideren. Por ejemplo: Que el nombre de la actividad no pueda contener símbolos, que la duración no pueda exceder determinado valor, etc.
@@ -162,7 +162,7 @@ __IMPORTANTE__: No está permitido utilizar los filtrados, ordenamientos y pagin
 - [ ✅ ] __GET /countries?name="..."__:
   - Obtener los países que coincidan con el nombre pasado como query parameter (No necesariamente tiene que ser una matcheo exacto)
   - Si no existe ningún país mostrar un mensaje adecuado
-- [ ] __POST /activity__:
+- [ ✅ ] __POST /activity__:
   - Recibe los datos recolectados desde el formulario controlado de la ruta de creación de actividad turística por body
   - Crea una actividad turística en la base de datos
 

@@ -15,8 +15,10 @@ const getCountries = async (req,res) => {
     const {name} = req.query
     if(name){
         //buscar en api y bd por name
-        const coutryByName = await getCountryNameDb(name)
-        return res.json(coutryByName)
+        const coutryByNameBd = await getCountryNameDb(name)
+        return res.json({
+            fromDb: coutryByNameBd.status=== 404 ? [] : coutryByNameBd
+        })
     }else{{
         const dataFromApi = await getCountriesDb()
         return res.json(dataFromApi)
@@ -27,7 +29,6 @@ const getCountries = async (req,res) => {
 //busqueda por ID
 const getCountriesId = async (req, res)=>{
     const {idPais} = req.params
-    console.log(idPais)
     if(!idPais){
         return res.json({status: 400, message: "id is requered"})
     }
