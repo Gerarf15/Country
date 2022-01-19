@@ -101,7 +101,7 @@ __Ruta principal__: debe contener
   - Nombre
   - Continente
 - [ ] Botones/Opciones para filtrar por continente y por tipo de actividad turística
-- [ ] Botones/Opciones para ordenar tanto ascendentemente como descendentemente los países por orden alfabético y por cantidad de población
+- [ ✅ ] Botones/Opciones para ordenar tanto ascendentemente como descendentemente los países por orden alfabético y por cantidad de población
 - [ ✅ ] Paginado para ir buscando y mostrando los siguientes paises, 10 paises por pagina, mostrando los primeros 9 en la primer pagina.
 
 __Ruta de detalle de país__: debe contener
@@ -111,7 +111,7 @@ __Ruta de detalle de país__: debe contener
 - [ ✅ ] Subregión
 - [ ✅ ] Área (Mostrarla en km2 o millones de km2)
 - [ ✅ ] Población
-- [ ] Actividades turísticas con toda su información asociada
+- [ ✅ ] Actividades turísticas con toda su información asociada
 
 __Ruta de creación de actividad turística__: debe contener
 - [ ✅ ] Un formulario __controlado con JavaScript__ con los siguientes campos:

@@ -50,7 +50,7 @@ const postCountry = ( async (req, res) => {
   
       res.status(201).json({data:activity, message: "Activity Register"});
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   });
 

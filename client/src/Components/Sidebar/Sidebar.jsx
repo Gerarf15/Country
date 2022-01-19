@@ -1,17 +1,11 @@
-import React,{useEffect} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
-import './Sidebar.css'
+import React from 'react'
 
-const Sidebar =()=>{
+const Sidebar=()=>{
+    return <div>
 
-
-
-    return <div className="sidebar_container">
-        <div className="continents">
-
-        </div>
     </div>
 }
 
 export default Sidebar
+
 

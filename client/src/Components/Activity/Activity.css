@@ -1,3 +1,65 @@
+.register_container {
+  background-color: #113a6e;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
+.brand_container {
+  background-color: rgb(10, 27, 119);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 15px;
+}
 
+.home_link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
 
+.register_main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+  flex: 1;
+}
+
+/* .form_register {
+  border: 2px solid red;
+  border-radius: 10px;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 1rem 0px;
+  padding: 30px;
+  flex: 1;
+} */
+
+.container_list {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 10px;
+}
+
+.container_list > li {
+  background-color: rgb(223, 219, 219);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.remove {
+  border: 1px solid orange;
+  border-radius: 5px;
+  padding: 1.5px;
+  background-color: orange;
+  color: white;
+  cursor: pointer;
+}

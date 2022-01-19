@@ -5,7 +5,7 @@ const {
 } = require("../controllers/countries.controllers")
 
 const {postCountry } = require("../controllers/activity.controllers")
-const {getTypes} = require("../helpers/types.helpers")
+const {getTypes, postTypesActivity} = require("../helpers/types.helpers")
 
 
 const { getIdFronDb } = require("../helpers/country.helpers")
@@ -22,6 +22,8 @@ router.route("/countries").get(getCountries)
 router.route("/countrie/:idPais").get(getIdFronDb) 
 router.route("/activity").post(postCountry) 
 router.route("/types").get(getTypes) 
+router.route("/type").post(postTypesActivity) 
+
 
 
 

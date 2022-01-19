@@ -17,7 +17,6 @@ const axios = require("axios")
 //todos los country
 const getCountriesApi= async ()=> {
     const response = await axios(`${ALL_COUNTRIES}`)
-    console.log(response)
     
     if(response){
         const countryCollection = await response.data.map((country)=>{

@@ -11,10 +11,13 @@ const getCountriesDb =async ()=>{
             const countryApi = await getCountriesApi()
             await Country.bulkCreate(countryApi)
         }
-        const country = await Country.findAll()
+        const country = await Country.findAll({
+          include: Activity
+        })
         return country
     } catch (error) {
-    console.log(error)
+      return{status:500,error}
+
     }
 }
 
@@ -38,7 +41,7 @@ const getCountryNameDb = async (name) =>{
             return{status:404,message:"Request not found...!!!"}
         }
     } catch (error) {
-        console.log(error)
+      return{status:500,error}
 
     }
 }
@@ -80,12 +83,12 @@ const getIdFronDb = ( async (req, res) => {
           model: Activity,
         },
       });
-  
       countryId
         ? res.status(200).json(countryId)
         : res.status(404).send(`"Id not found in database`);
     } catch (err) {
-      console.log(err);
+      return{status:500, error} 
+
     }
   });
 

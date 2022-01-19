@@ -4,13 +4,20 @@ import {
     RESET_SEARCH,
     FILTER_COUNTRY,
     SET_TYPES,
-    ORDER_BY_NAME
+    ORDER_BY_NAME,
+    ORDER_BY_POPULATION,
+    GET_DETAIL,
+    RESET_DETAIL,
+    FILTER_ACTIVITY
 } from '../action/index'
 
 const initialState={
     countries: [],
     filtered_countries: [],
-    types: []
+    types: [],
+    detail:null,
+    searching: false
+
 }
 
 const rootReducer =(state= initialState, action)=>{
@@ -18,22 +25,27 @@ const rootReducer =(state= initialState, action)=>{
         case SET_COUNTRIES:
             return{
                 ...state,
-                countries: action.payload
+                countries: action.payload,
+                searching: false
+
             }
         case SET_SEARCH:
             return{
                 ...state,
-                filtered_countries: action.payload
+                filtered_countries: action.payload,
+                searching: true
             }
         case RESET_SEARCH:
             return{
                 ...state,
-                filtered_countries: action.payload
+                filtered_countries: action.payload,
+                searching: false
             }
         case FILTER_COUNTRY:
             return{
                 ...state,
-                filtered_countries: action.payload
+                filtered_countries: action.payload,
+                searching: true
             }    
         case SET_TYPES:
             return{
@@ -44,6 +56,28 @@ const rootReducer =(state= initialState, action)=>{
             return{
                 ...state,
                 filtered_countries: action.payload,
+            }
+        case ORDER_BY_POPULATION:
+            return{
+                ...state,
+                filtered_countries: action.payload,
+            } 
+        case GET_DETAIL:
+            return{
+                ...state,
+                detail: action.payload,
+            }
+        case RESET_DETAIL:
+            return{
+                ...state,
+                detail: null,
+            }
+        case FILTER_ACTIVITY:
+            return{
+                ...state,
+                filtered_countries: action.payload,
+                searching: true
+                
             }
         default:
             return state
