@@ -3,7 +3,7 @@ const {getCountriesApi} = require("../servies/api.services")
 const { Op } = require("sequelize")
 
 
-//todos
+//guardo los paises en BD
 const getCountriesDb =async ()=>{
     try {
         const size_CountryDb = await Country.count()
@@ -23,9 +23,7 @@ const getCountriesDb =async ()=>{
 
 //busqueda por name
 const getCountryNameDb = async (name) =>{
-    // console.log(name)
     try {
-        // console.log(name)
         const coountryByName = await Country.findAll({
             include: Activity,
             where:{
@@ -34,7 +32,6 @@ const getCountryNameDb = async (name) =>{
                 } 
             }
         })
-        // console.log(coountryByName)
         if(coountryByName.length > 0){
             return{status:200, results: coountryByName}
         }else{
@@ -45,34 +42,7 @@ const getCountryNameDb = async (name) =>{
 
     }
 }
-//mando un chico q me ayudo
-/* router.get("/", async (req, res) => {
-    const name = req.query.name; //name from query(url)
-  
-    try {
-      if (name) {
-        const nameCountry = await Country.findAll({
-          where: {
-            name: {
-              [Op.iLike]: `%${name}%`,
-            },
-          },
-        });
-        nameCountry.length
-          ? res.status(200).json(nameCountry)
-          : res.status(404).send("Countrie not found");
-      } else {
-        const countries = await Country.findAll({
-          attributes: ["id", "flags", "name",
-   "continent"],
-        });
-  
-        res.status(200).json(countries);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }); */
+
 
 //busqueda por id
 const getIdFronDb = ( async (req, res) => {
@@ -91,6 +61,8 @@ const getIdFronDb = ( async (req, res) => {
 
     }
   });
+
+
 
 
 module.exports = {

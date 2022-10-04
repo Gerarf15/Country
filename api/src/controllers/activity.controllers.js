@@ -30,13 +30,13 @@ const {v4} = require("uuid")
 
 } */
 
-//mando un chico q me ayudo
-const postCountry = ( async (req, res) => {
-    const { name, difficulty, duration, season, countriesId } = req.body;
+const postCountry =  async (req, res) => {
+  const { name, difficulty, duration, season, countriesId } = req.body;
 
-    // console.log(name, difficulty, duration, season, countriesId, "infoooooo")
-  
     try {
+      if(countriesId.length === 0){
+        return res.status(400).json({message: "country are required"})
+      }
       const [activity, created] = await Activity.findOrCreate({
         where: {
           name,
@@ -45,14 +45,14 @@ const postCountry = ( async (req, res) => {
           season,
         },
       });
-      // console.log(activity, "aaaaaaaaa")
       await activity.setCountries(countriesId);
   
       res.status(201).json({data:activity, message: "Activity Register"});
+
     } catch (err) {
-      // console.log(err);
+      console.log(err)
     }
-  });
+  };
 
 module.exports={
     postCountry

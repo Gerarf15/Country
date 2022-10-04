@@ -1,20 +1,20 @@
-/* const {
-    getCountriesApi, 
-    getCountryByIdApi,
-    getCountriesFromApi
-} = require("../servies/api.services") */
-
+const  axios  = require("axios")
 const {
     getCountriesDb,
     getCountryNameDb,
     getIdFronDb
 } = require("../helpers/country.helpers")
 
+require("dotenv").config()
+const {ALL_COUNTRIES, BY_NAME, BY_ID} = process.env
+
+
+
 //todos los paises y busqueda por name
 const getCountries = async (req,res) => {
     const {name} = req.query
     if(name){
-        //buscar en api y bd por name
+        //buscar en bd por name
         const coutryByNameBd = await getCountryNameDb(name)
         return res.json({
             fromDb: coutryByNameBd.status=== 404 ? [] : coutryByNameBd
@@ -40,5 +40,5 @@ const getCountriesId = async (req, res)=>{
 
 module.exports={
     getCountries,
-    getCountriesId
+    getCountriesId,
 }

@@ -2,6 +2,7 @@ require("dotenv").config()
 const {ALL_COUNTRIES, BY_NAME, BY_ID} = process.env
 const axios = require("axios")
 
+
 //busqueda por name
 /* const getCountryByIdApi = async (name) =>{
     console.log(name)
@@ -23,7 +24,7 @@ const getCountriesApi= async ()=> {
             const objeto ={
                 id: country.cca3,
                 name: country.name.common,
-                image: country.flags[0],
+                image: country.flags.png,
                 continents: country.continents[0],
                 capital: country.capital ? country.capital[0] : null,
                 subregion: country.subregion ? country.subregion : null,
