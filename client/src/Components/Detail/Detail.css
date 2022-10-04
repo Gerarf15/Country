@@ -11,12 +11,16 @@
 }
 
 .home_detail{
-    color: whitesmoke;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;    
+    border: 1px solid white;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 4px;  
 }
+.home_detail:hover{
+    color: rgb(24,214,214);
+  }
 
 .detail_header{
     border: 2px solid red;

@@ -1,19 +1,23 @@
-export const SET_COUNTRIES="SET_COUNTRIES"
-export const SET_SEARCH="SET_SEARCH"
-export const RESET_SEARCH="RESET_SEARCH"
-export const SET_CONTINENTS="SET_CONTINENTS"
-export const FILTER_COUNTRY="FILTER_COUNTRY"
-export const SET_TYPES="SET_TYPES"
-export const ORDER_BY_NAME="ORDER_BY_NAME"
-export const ORDER_BY_POPULATION="ORDER_BY_POPULATION"
-export const GET_DETAIL="GET_DETAIL"
-export const RESET_DETAIL ="RESET_DETAIL"
-export const FILTER_ACTIVITY ="FILTER_ACTIVITY"
+
+import {
+    SET_COUNTRIES,
+    SET_SEARCH,
+    RESET_SEARCH,
+    // SET_CONTINENTS,
+    FILTER_COUNTRY,
+    SET_TYPES,
+    ORDER_BY_NAME,
+    ORDER_BY_POPULATION,
+    GET_DETAIL,
+    FILTER_ACTIVITY,
+    SET_PAGE_BACK,
+    RESET_DETAIL,
+    FILTER_AREA
+} from '../action/actionTypes.js'
 
 export const getCountriesBack = () =>{
-    return async function(dispatch){
-
-        const response = await fetch(`http://Localhost:3001/countries`)
+    /* return async function(dispatch){
+        const response = await fetch(`https://country-app-8oiu.onrender.com/countries`)
         const data = await response.json()
         if(data){
             return dispatch({
@@ -21,21 +25,36 @@ export const getCountriesBack = () =>{
                 payload: data
             })
         }
-
+    } */
+    return function(dispatch){
+    fetch(`https://country-app-8oiu.onrender.com/countries`)
+        .then(response => response.json())
+        .then(data => dispatch({
+            type: SET_COUNTRIES,
+            payload: data
+        }))
+        .catch(err => console.log(err))
     }
 }
 
 //busqueda
 export const getSearchName =(name)=>{
-    return async function(dispatch){
-        const response = await fetch(`http://Localhost:3001/countries?name=${name}`)
+    /* return async function(dispatch){
+        const response = await fetch(`https://country-app-8oiu.onrender.com/countries?name=${name}`)
         const data = await response.json()
-        console.log(data)
-
         return dispatch({
             type: SET_SEARCH,
             payload: data.fromDb.results ? data.fromDb.results : []
         })
+    } */
+    return function(dispatch){
+        fetch(`https://country-app-8oiu.onrender.com/countries?name=${name}`)
+        .then(response => response.json())
+        .then(data => dispatch({
+            type: SET_SEARCH,
+            payload: data.fromDb.results ? data.fromDb.results : [] 
+        }))
+        .catch(err => console.log(err))
     }
 }
 
@@ -61,7 +80,7 @@ export const filterContinents =(countries, continent)=>{
 //types
 export const getTypes =()=>{
     return async function(dispatch){
-        const response = await fetch(`http://Localhost:3001/types`)
+        const response = await fetch(`https://country-app-8oiu.onrender.com/types`)
         const data = await response.json()
 
         return dispatch({
@@ -70,7 +89,6 @@ export const getTypes =()=>{
         })
     }
 }
-
 
 //orden asc-desc
 const orderFunction=(ordenParam, country)=>{
@@ -99,7 +117,7 @@ export const orderByName=(ordenParam, country)=>{
     }
 }
 
-//orden por rating
+//orden por population
 const orderPobFunction=(ordenPobParam, countries)=>{
     let results
     if(ordenPobParam > 0){
@@ -129,7 +147,7 @@ export const orderByPopulation=(ordenPobParam, countries)=>{
 //detail
 export const getDetail =  (idPais) =>{ 
     return async function (dispatch){
-        const response = await fetch(`http://localhost:3001/countrie/${idPais}`)
+        const response = await fetch(`https://country-app-8oiu.onrender.com/countrie/${idPais}`)
         const data = await response.json()
         if(data){
             return dispatch({
@@ -140,16 +158,8 @@ export const getDetail =  (idPais) =>{
     }
 }
 
-//reset detail
-export const resetDetail=()=>{
-    return{
-        type: RESET_DETAIL
-    }
-}
-
 //filter activity
 const countryFilter = (activityParam, countries)=>{
-    console.log(activityParam)
     const resultts = countries.filter((coun)=> {
         let isHere = false
         coun.activities.forEach(act=> {
@@ -158,7 +168,6 @@ const countryFilter = (activityParam, countries)=>{
         })
     if(isHere) return coun
     })
-    console.log(resultts)
     return resultts
 }
 
@@ -168,5 +177,31 @@ export const filterByActivity = (activityParam, countries)=>{
         type: FILTER_ACTIVITY,
         payload: filterResults,
     }
+}
+
+//volver a la pagina
+export const setPageBack=(page)=>{
+    return{
+        type: SET_PAGE_BACK,
+        payload: page
+    }
+}
+
+//desmontar el detail
+export const resetDetail =()=>{
+    return{
+        type: RESET_DETAIL
+    }
+}
+
+export const filterArea = (countries)=>{
+    return function(dispatch){
+        const filterAre = countries.filter(a => a.area > 5000000)
+        return dispatch({
+            type: FILTER_AREA,
+            payload: filterAre
+        })
+    }
+
 }
 

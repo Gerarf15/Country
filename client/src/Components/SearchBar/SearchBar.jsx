@@ -1,53 +1,55 @@
 import React from 'react'
-import {GrUpdate} from 'react-icons/gr'
 import { useDispatch } from 'react-redux'
-import {resetSearch} from '../action/index'
+import { resetSearch } from '../action/index'
 import './SearchBar.css'
 
-function SearchBar ({
-    handleInputSearch, 
-    handleSearchClick, 
+function SearchBar({
+    handleInputSearch,
+    handleSearchClick,
     nameParam,
     handleOrderAscDesc,
     asc,
     handleOrderPopulation,
     ascPob
-}){
+}) {
     const dispartch = useDispatch()
 
-    const handleClickReset=()=>{
+    const handleClickReset = () => {
         dispartch(resetSearch())
     }
 
-    return <div className="search_container">
-        <div className="order_container">
+    return (
+
+        <div className="search_container">
+            <div className="order_container">
                 <div className="order_name">
-                    <h2>Orden</h2>
-                    <button className="border_btn" onClick={handleOrderAscDesc}>{asc ? "Z-A" : "A-Z" }</button>
+                    <h3>Orden</h3>
+                    <button className="border_btn" onClick={handleOrderAscDesc}>{asc ? "Z-A" : "A-Z"}</button>
                 </div>
-                <div className="order_rat">
-                    <h2 >Orden Population</h2>
-                    <button className="border_btn" onClick={handleOrderPopulation}>{ascPob ? "0-9" : "9-0" }</button>
+            </div>
+            <div className="search">
+                <button className="btn_search" onClick={handleClickReset}>
+                    Reset
+                </button>
+                <form className='search_form' action="" onSubmit={handleSearchClick}>
 
-                </div>
-            </div> 
+                    <input className="input_search" type="text" onChange={handleInputSearch} value={nameParam} />
 
-            <div className="search_container">
-                <form action="" onSubmit={handleSearchClick}>
-                    
-                    <input className="input_search" type="text" onChange={handleInputSearch} 
-                    value={nameParam} required/>
-                    
                     <button className="btn_search" type="submit" >Search</button>
-                    <span className="reset_btn" onClick={handleClickReset}>
-                        <GrUpdate/>
-
-                    </span>
                 </form>
 
             </div>
+            <div className="order_container">
+                <div className="order_rat">
+                    <h3 >Population</h3>
+                    <button className="border_btn" onClick={handleOrderPopulation}>{ascPob ? "0-9" : "9-0"}</button>
+
+                </div>
+            </div>
         </div>
 
+
+    )
 }
 
 export default SearchBar

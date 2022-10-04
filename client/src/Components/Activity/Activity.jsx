@@ -1,9 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTypes } from "../action/index";
-import { GiWorld } from "react-icons/gi";
 import { Link } from "react-router-dom";
+import turis from '../../Assets/turismo.jpg'
+import swal from 'sweetalert';
 import "./Activity.css";
+
+function validate(activityObj, nameType) {
+
+  // let regex = new RegExp("[a-zA-Z ]{2,254}");
+
+
+  let errors = {}
+  if (!activityObj.name) {
+      errors.name = "Name is required"
+  }/* else if(!regex.test(activityObj.name)){
+      errors.name = "deben ser letras"
+  } */
+
+
+  if(!activityObj.difficulty){
+      errors.difficulty = "difficulty is required"
+  }/* else if(!regex.test(activityObj.difficulty)){
+    errors.difficulty = "deben ser numeros positivos"
+  } */
+  else if(Number(activityObj.difficulty) <= 0){
+      errors.difficulty = "must be a positive number"
+  }else if(typeof activityObj.difficulty === "number"){
+      errors.difficulty = "must be numbers"
+  }else if(activityObj.difficulty > 10){
+    errors.difficulty=("valor maximo es 10")
+  }
+
+  if (!activityObj.duration) {
+      errors.duration = "duration is required"
+  }else if(Number(activityObj.duration) <= 0){
+      errors.duration = "must be a positive number"
+  }else if(typeof activityObj.duration === "number"){
+      errors.duration = "must be numbers"
+  }else if(activityObj.duration > 10){
+    errors.duration=("valor maximo es 10")
+  }
+  
+  return errors
+}
 
 const Activity = () => {
   const countriesSave = useSelector((state) => state.countries);
@@ -19,12 +59,15 @@ const Activity = () => {
     duration: "",
     season: null,
     countriesId: [],
+    nameType: ""
   };
 
   const [activityObj, setActivityObj] = useState(initialAct);
   const [nameType, setNameType] = useState(null);
   const [selectActivity, setSelectActivity] = useState([]);
   const [selectSeason, setSelectSeason] = useState([]);
+  const [errors, setErrors] = useState("")
+
   //   const [selectCountry, setSelectCountry] = useState([]);
 
   //obtener el input
@@ -35,40 +78,42 @@ const Activity = () => {
       ...activityObj,
       [name]: value,
     });
+
+    setErrors(validate({
+      ...activityObj,
+      [name]: value
+  }))
   };
 
   const handleSelectSeason = (e) => {
-    // const valor = selectSeason.find(elem => elem.id === e.target.value)
-
     setActivityObj({
       ...activityObj,
       season: e.target.value,
     });
     if (e.target.options[e.target.selectedIndex].text === "Select")
       return alert("item incorrecto");
-    /* if (e.target.options[e.target.selectedIndex].text === "Select") return alert("item incorrecto")
-        if (valor) return alert("el valor ya fue seleccionado")
-        else {
-            setSelectSeason([
-                ...selectSeason,
-                { id: e.target.value, name: e.target.options[e.target.selectedIndex].text }
-            ])
-        } */
   };
 
   const handleSelectTypes = (e) => {
+    const { name, value } = e.target;
+    if (e.target.options[e.target.selectedIndex].text === "Select")
+      return alert("item incorrecto");
     setActivityObj({
       ...activityObj,
       name: e.target.value,
     });
-    if (e.target.options[e.target.selectedIndex].text === "Select")
-      return alert("item incorrecto");
+    setErrors(validate({
+      ...activityObj,
+      [name]: value
+    }))
   };
 
   const handleSelectCountnries = (e) => {
     const pais = selectCountries.find((coun) => coun.id === e.target.value);
     if (pais) return alert("pais ya seleccionado");
     // console.log(e.target.value, e.target.options[e.target.selectedIndex].text)
+    if (e.target.options[e.target.selectedIndex].text === "Select")
+      return alert("item incorrecto");
     setSelectCountries([
       ...selectCountries,
       {
@@ -103,10 +148,14 @@ const Activity = () => {
     setSelectCountries(clickCountry);
   };
 
-  //
+  //agregar el tipo de actividad
   const handlePostType = async (e) => {
     e.preventDefault();
-    if (!nameType) return alert("ingresar un type");
+    if (!nameType) return swal("Error!","enter a type", "error");
+    let regex = new RegExp(/^[A-Z]+$/i)
+    if (!regex.test(nameType)) {
+      return swal("Error!","must be just letters", "error")
+    }
 
     const response = await fetch("http://Localhost:3001/type", {
       method: "POST",
@@ -118,22 +167,33 @@ const Activity = () => {
     if (response.status === 201) {
       dispatch(getTypes());
       const result = await response.json();
-      return alert(result.message);
+      return swal("Good type!", "type register!", "success");;
     } else {
-      return alert("no se pudo registrar");
+      return swal("Error!","could not register", "error");
     }
   };
 
+  //enviar todos los datos
   const handleSumit = async (e) => {
     e.preventDefault();
-    if (!activityObj.season) {
-      return alert("completar season");
+    if (!activityObj.name || !activityObj.difficulty || !activityObj.duration || !activityObj.season || !activityObj.countriesId) {
+      return swal("Error!","fill in fields", "error");
     }
+    if(activityObj.difficulty <= 0 || activityObj.duration <= 0){
+      return swal("Error!","must be positive numbers", "error")
+    }else if(activityObj.difficulty > 10 || activityObj.duration > 10){
+      return swal("Error!", "the maximum value is 10", "error");
+    }
+    
     const arraycountries = getArrayCountries();
+    if(arraycountries.length === 0){
+      return swal("Error!", "please, select country", "error");
+    }
     const objToBack = {
       ...activityObj,
       countriesId: arraycountries,
     };
+    if(!objToBack.countriesId) {return swal("Error!","fill in fields", "error");}
     const response = await fetch("http://Localhost:3001/activity", {
       method: "POST",
       headers: {
@@ -141,12 +201,24 @@ const Activity = () => {
       },
       body: JSON.stringify(objToBack),
     });
+    /* fetch("http://Localhost:3001/activity",{
+      
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(objToBack),
+      
+    })
+    .then(response=> {
+      return response.json()})
+    .then(result) */
 
+    const result = await response.json();
     if (response.status === 201) {
-      const result = await response.json();
-      alert(result.message);
+      swal("Good activity!", "activity register!", "success");;
     } else {
-      console.log("Oops, esta mal");
+      swal("Error!", "activity not register!", "error");
     }
   };
 
@@ -158,80 +230,89 @@ const Activity = () => {
     <div className="register_container">
       <nav className="brand_container">
         <Link to="/home" className="home_link">
-          <GiWorld />
           <span>Country</span>
         </Link>
       </nav>
       <h2>Register Activity</h2>
       <main className="register_main">
+      <div className="register_img">
+        <img src={turis} alt="image" width="340" height="300"/>
+      </div>
         <form className="form_register" action="" onSubmit={handleSumit}>
-          <div>
-            <label htmlFor="">name</label>
-            <select name="name" id="" onChange={handleSelectTypes} required>
-              <option value="">Select</option>
-              {typesSave.length > 0 ? (
-                typesSave.map((types) => {
-                  return (
-                    <option key={types.id} value={types.name}>
-                      {types.name}
-                    </option>
-                  );
-                })
-              ) : (
-                <option value="">Activities</option>
-              )}
-            </select>
-          </div>
-          <div>
-            <form action="">
-              <input type="text" name="nameType" onChange={handleInputType} />
-              <button type="submit" onClick={handlePostType}>
-                + Activity
-              </button>
-            </form>
-          </div>
+            <span className="titles">name</span>
+            <div className="container_selects">
+              <select name="name" id="" onChange={handleSelectTypes} className="selects_css">
+                <option value="">Select</option>
+                {typesSave.length > 0 ? (
+                  typesSave.map((types) => {
+                    return (
+                      <option key={types.id} value={types.name}>
+                        {types.name}
+                      </option>
+                    );
+                  })
+                  ) : (
+                    <option value="">Activities</option>
+                    )}
+              </select>
           <ul className="container_list">
             <li>{activityObj.name}</li>
           </ul>
+            </div>
+              {errors.name && <p className="errors_names">{errors.name}</p>}
+              <input type="text" name="nameType" onChange={handleInputType}/>
+              <button type="submit" onClick={handlePostType}>
+                + Activity
+              </button>
 
           <br />
-          <label htmlFor="">difficulty</label>
+          {/* <span className="titles">difficulty</span> */}
           <input
             type="number"
-            min="1"
-            max="5"
-            pattern="^[0-9]+"
             name="difficulty"
+            placeholder="difficulty"
             onChange={handleInputChange}
-            required
           />
-          <label htmlFor="">duration</label>
+          {errors.difficulty && <p className="errors_names">{errors.difficulty}</p>}
+
+          {/* <span className="titles">duration</span> */}
           <input
             type="number"
-            min="1"
-            pattern="^[0-9]+"
             name="duration"
+            placeholder="duration"
             onChange={handleInputChange}
-            required
           />
-          <label htmlFor="">season</label>
-          <select name="season" id="" onChange={handleSelectSeason} required>
+          {errors.duration && <p className="errors_names">{errors.duration}</p>}
+
+          <div className="container_selects">
+            <div>
+
+          <span className="titles">season</span>
+            </div>
+          <select name="season" id="" onChange={handleSelectSeason} className="selects_css">
             <option value="">Select</option>
             <option value="summer">Summer</option>
             <option value="auntumn">Auntumn</option>
             <option value="winter">Winter</option>
             <option value="sprint">Sprint</option>
           </select>
+
           <ul className="container_list">
             <li>{activityObj.season}</li>
           </ul>
+          </div>
           <br />
-          <label htmlFor="">Countries</label>
+          <div className="container_selects">
+            <div>
+
+          <span className="titles">Countries</span>
+            </div>
+            
           <>
-            <select name="countries" onChange={handleSelectCountnries} required>
+            <select name="countries" onChange={handleSelectCountnries} className="selects_css">
               <option value="">Select</option>
               {countriesSave.length > 0 ? (
-                countriesSave.map((coun) => {
+                countriesSave.sort((a,b) => a.name < b.name ? -1 : +(a.name > b.name)).map((coun) => {
                   return (
                     <option
                       key={coun.id}
@@ -246,6 +327,8 @@ const Activity = () => {
                 <option value="">cargando...</option>
               )}
             </select>
+          </>
+          <br />
             <ul className="container_list">
               {selectCountries.map((el) => (
                 <li key={el.id}>
@@ -256,9 +339,9 @@ const Activity = () => {
                 </li>
               ))}
             </ul>
-          </>
+          </div>
           <br />
-          <button type="submit">Save</button>
+          <button type="submit"  className="btn_register">Save</button>
         </form>
       </main>
     </div>

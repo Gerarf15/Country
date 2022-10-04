@@ -7,12 +7,12 @@ import {
   orderByPopulation,
   getTypes,
   filterByActivity,
+  setPageBack,
+  filterArea
 } from "../action/index";
 import { connect } from "react-redux";
-import { BsBagCheck } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import SearchBar from "../SearchBar/SearchBar";
-import Sidebar from "../SideBar/Sidebar";
 
 import "./Home.css";
 
@@ -28,19 +28,22 @@ const Home = ({
   typesSave,
   filterByActivity,
   searching,
+  pageBack,
+  setPageBack,
+  filterArea
 }) => {
   const [nameParam, setNameParam] = useState("");
   const countriesForMap =
     filtered_countries.length > 0
       ? filtered_countries
       : searching
-      ? false
-      : countries;
+        ? false
+        : countries;
   const [asc, setAsc] = useState(true);
   const [ascPob, setAscDesPob] = useState(true);
 
   //paginado
-  const [currentpage, setCurrentPage] = useState(1);
+  const currentpage = pageBack === 0 ? 1 : pageBack;
   const countryXpage = 10;
   const pagesButton = [];
   let currentItems;
@@ -48,7 +51,8 @@ const Home = ({
   //numero de pag
   const handleClickPage = (e) => {
     const { id } = e.target;
-    setCurrentPage(parseInt(id));
+    setPageBack(parseInt(id))
+    // setCurrentPage(parseInt(id));
   };
 
   //busqueda
@@ -63,6 +67,7 @@ const Home = ({
     setNameParam("");
   };
 
+  //filter continentes
   const handleChangeContinents = (e) => {
     filterContinents([...countries], e.target.value);
   };
@@ -82,10 +87,9 @@ const Home = ({
     orderByPopulation(ordPobParam, countriesForMap);
   };
 
-  //
-  const handleSelectTypes = (e) => {
-    filterByActivity(e.target.value, [...currentItems]);
-  };
+  const handelFilterArea = () => {
+    filterArea([...countries])
+  }
 
   for (let i = 1; i <= Math.ceil(countriesForMap.length / countryXpage); i++) {
     pagesButton.push(i);
@@ -97,9 +101,12 @@ const Home = ({
   currentItems = !countriesForMap
     ? false
     : countriesForMap.length > 0
-    ? countriesForMap.slice(indexFirs, indexLast)
-    : false;
+      ? countriesForMap.slice(indexFirs, indexLast)
+      : false;
 
+  const handleSelectTypes = (e) => {
+    filterByActivity(e.target.value, countriesForMap.length > 0 ? [...countriesForMap] : []);
+  };
   const renderPageNumber = pagesButton.map((page, index) => {
     return (
       <li key={index} id={page} onClick={handleClickPage}>
@@ -115,50 +122,58 @@ const Home = ({
 
   return (
     <div className="home_container">
-      <Sidebar />
-      <Link to="/create/activity">
-        <BsBagCheck className="add_button" />
-      </Link>
-      <SearchBar
-        handleInputSearch={handleInputSearch}
-        handleSearchClick={handleSearchClick}
-        nameParam={nameParam}
-        asc={asc}
-        handleOrderAscDesc={handleOrderAscDesc}
-        handleOrderPopulation={handleOrderPopulation}
-        ascPob={ascPob}
-      />
-      <div>
-        <select name="" id="" onChange={handleChangeContinents}>
-          <option value="">Select</option>
-          <option value="north america">North America</option>
-          <option value="asia">Asia</option>
-          <option value="europe">Europe</option>
-          <option value="oceania">Oceania</option>
-          <option value="africa">Africa</option>
-          <option value="south america">South America</option>
-          <option value="antartica">Antartica</option>
-        </select>
+      <nav className="nav_container">
+
+        <Link to="/create/activity">
+          <button className="add_button">Create Activity</button>
+        </Link>
+        <SearchBar
+          handleInputSearch={handleInputSearch}
+          handleSearchClick={handleSearchClick}
+          nameParam={nameParam}
+          asc={asc}
+          handleOrderAscDesc={handleOrderAscDesc}
+          handleOrderPopulation={handleOrderPopulation}
+          ascPob={ascPob}
+        />
+      <div className="container_select">
+        <div >
+          <select name="" id="" onChange={handleChangeContinents} className="selects_css" >
+            <option value="">Continent</option>
+            <option value="north america">North America</option>
+            <option value="asia">Asia</option>
+            <option value="europe">Europe</option>
+            <option value="oceania">Oceania</option>
+            <option value="africa">Africa</option>
+            <option value="south america">South America</option>
+            <option value="antartica">Antartica</option>
+          </select>
+        </div>
+        <div>
+          <select name="name" id="" onChange={handleSelectTypes} className="selects_css">
+            <option value="">Activity</option>
+            {typesSave.length > 0 ? (
+              typesSave.map((types) => {
+                return (
+                  <option key={types.id} value={types.name}>
+                    {types.name}
+                  </option>
+                );
+              })
+            ) : (
+              <option value="">Activities</option>
+            )}
+          </select>
+        </div>
       </div>
-      <div>
-        <select name="name" id="" onChange={handleSelectTypes} required>
-          <option value="">Select</option>
-          {typesSave.length > 0 ? (
-            typesSave.map((types) => {
-              return (
-                <option key={types.id} value={types.name}>
-                  {types.name}
-                </option>
-              );
-            })
-          ) : (
-            <option value="">Activities</option>
-          )}
-        </select>
-      </div>
+      </nav>
+
       <div className="pagination">
         <ul>{renderPageNumber}</ul>
       </div>
+
+      {/* <button onClick={handelFilterArea}>Filter Area</button> */}
+
       <div className="countries">
         {currentItems ? (
           currentItems.map((coun, index) => {
@@ -171,13 +186,13 @@ const Home = ({
                 <div className="img_container">
                   <img src={coun.image} alt="" />
                 </div>
-                <div>
-                  <h3>{coun.name}</h3>
-                  <h4>{coun.continents}</h4>
-                  <h5>Population: {coun.population}</h5>
+                <div className="info_card">
+                  <span>{coun.name}</span>
+                  <span>{coun.continents}</span>
+                  <span>population: {coun.population}</span>
                   <span>Activities: </span>
                   {coun.activities.length > 0 ? (
-                    coun.activities.map((act) => <span>{act.name}</span>)
+                    coun.activities.map((act, index) => <span key={index}>{act.name}</span>)
                   ) : (
                     <h5>not activities</h5>
                   )}
@@ -199,6 +214,7 @@ const mapStateToProps = (state) => {
     filtered_countries: state.filtered_countries,
     typesSave: state.types,
     searching: state.searching,
+    pageBack: state.pageBack
   };
 };
 
@@ -225,6 +241,12 @@ const mapDispatchToProps = (dispatch) => {
     filterByActivity: function (activityParam, countries) {
       dispatch(filterByActivity(activityParam, countries));
     },
+    setPageBack: function (page) {
+      dispatch(setPageBack(page));
+    },
+    filterArea: function (countries) {
+      dispatch(filterArea(countries))
+    }
   };
 };
 

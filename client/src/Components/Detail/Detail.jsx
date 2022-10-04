@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { getDetail, resetDetail } from "../action/index"
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from "react-redux"
-import { GiWorld } from 'react-icons/gi'
 import { Link } from "react-router-dom";
 import "./Detail.css"
 
@@ -14,7 +13,7 @@ const Detail = () => {
 
     useEffect(() => {
         dispatch(getDetail(idPais))
-        return () => {
+        return () =>{
             dispatch(resetDetail())
         }
     }, [])
@@ -23,7 +22,6 @@ const Detail = () => {
         <div className="detail_container">
             <nav className="brand_detail">
                 <Link to="/home" className="home_detail">
-                    <GiWorld />
                     <span>Country</span>
                 </Link>
             </nav>

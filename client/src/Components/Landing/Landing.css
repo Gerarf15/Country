@@ -1,6 +1,9 @@
+*{
+}
 .Landing_container{
     /* border: 1px solid blue; */
-    min-height: 52vh;
+    height: 649px;
+    /* min-height: 54vh; */
     background: url("../../Assets/country.jpg");
     background-repeat: no-repeat;
     background-size: cover;
