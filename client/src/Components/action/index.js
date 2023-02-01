@@ -16,8 +16,9 @@ import {
 } from '../action/actionTypes.js'
 
 export const getCountriesBack = () =>{
-    /* return async function(dispatch){
-        const response = await fetch(`https://country-app-8oiu.onrender.com/countries`)
+    return async function(dispatch){
+        const response = await fetch(`https://country-app-project1.onrender.com/countries`)
+        console.log(response)
         const data = await response.json()
         if(data){
             return dispatch({
@@ -25,8 +26,8 @@ export const getCountriesBack = () =>{
                 payload: data
             })
         }
-    } */
-    return function(dispatch){
+    }
+    /* return function(dispatch){
     fetch(`https://country-app-8oiu.onrender.com/countries`)
         .then(response => response.json())
         .then(data => dispatch({
@@ -34,7 +35,7 @@ export const getCountriesBack = () =>{
             payload: data
         }))
         .catch(err => console.log(err))
-    }
+    } */
 }
 
 //busqueda
@@ -48,7 +49,7 @@ export const getSearchName =(name)=>{
         })
     } */
     return function(dispatch){
-        fetch(`https://country-app-8oiu.onrender.com/countries?name=${name}`)
+        fetch(`https://country-app-project1.onrender.com/countries?name=${name}`)
         .then(response => response.json())
         .then(data => dispatch({
             type: SET_SEARCH,
@@ -80,7 +81,7 @@ export const filterContinents =(countries, continent)=>{
 //types
 export const getTypes =()=>{
     return async function(dispatch){
-        const response = await fetch(`https://country-app-8oiu.onrender.com/types`)
+        const response = await fetch(`https://country-app-project1.onrender.com/types`)
         const data = await response.json()
 
         return dispatch({
@@ -147,7 +148,7 @@ export const orderByPopulation=(ordenPobParam, countries)=>{
 //detail
 export const getDetail =  (idPais) =>{ 
     return async function (dispatch){
-        const response = await fetch(`https://country-app-8oiu.onrender.com/countrie/${idPais}`)
+        const response = await fetch(`https://country-app-project1.onrender.com/countrie/${idPais}`)
         const data = await response.json()
         if(data){
             return dispatch({

@@ -166,7 +166,7 @@ const Activity = () => {
     });
     if (response.status === 201) {
       dispatch(getTypes());
-      const result = await response.json();
+      // const result = await response.json();
       return swal("Good type!", "type register!", "success");;
     } else {
       return swal("Error!","could not register", "error");
@@ -214,7 +214,7 @@ const Activity = () => {
       return response.json()})
     .then(result) */
 
-    const result = await response.json();
+    // const result = await response.json();
     if (response.status === 201) {
       swal("Good activity!", "activity register!", "success");;
     } else {
@@ -236,7 +236,7 @@ const Activity = () => {
       <h2>Register Activity</h2>
       <main className="register_main">
       <div className="register_img">
-        <img src={turis} alt="image" width="340" height="300"/>
+        <img src={turis} alt="turista" width="340" height="300"/>
       </div>
         <form className="form_register" action="" onSubmit={handleSumit}>
             <span className="titles">name</span>

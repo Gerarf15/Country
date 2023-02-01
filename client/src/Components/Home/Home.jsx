@@ -87,9 +87,6 @@ const Home = ({
     orderByPopulation(ordPobParam, countriesForMap);
   };
 
-  const handelFilterArea = () => {
-    filterArea([...countries])
-  }
 
   for (let i = 1; i <= Math.ceil(countriesForMap.length / countryXpage); i++) {
     pagesButton.push(i);
@@ -136,36 +133,36 @@ const Home = ({
           handleOrderPopulation={handleOrderPopulation}
           ascPob={ascPob}
         />
-      <div className="container_select">
-        <div >
-          <select name="" id="" onChange={handleChangeContinents} className="selects_css" >
-            <option value="">Continent</option>
-            <option value="north america">North America</option>
-            <option value="asia">Asia</option>
-            <option value="europe">Europe</option>
-            <option value="oceania">Oceania</option>
-            <option value="africa">Africa</option>
-            <option value="south america">South America</option>
-            <option value="antartica">Antartica</option>
-          </select>
+        <div className="container_select">
+          <div >
+            <select name="" id="" onChange={handleChangeContinents} className="selects_css" >
+              <option value="">Continent</option>
+              <option value="north america">North America</option>
+              <option value="asia">Asia</option>
+              <option value="europe">Europe</option>
+              <option value="oceania">Oceania</option>
+              <option value="africa">Africa</option>
+              <option value="south america">South America</option>
+              <option value="antartica">Antartica</option>
+            </select>
+          </div>
+          <div>
+            <select name="name" id="" onChange={handleSelectTypes} className="selects_css">
+              <option value="">Activity</option>
+              {typesSave.length > 0 ? (
+                typesSave.map((types) => {
+                  return (
+                    <option key={types.id} value={types.name}>
+                      {types.name}
+                    </option>
+                  );
+                })
+              ) : (
+                <option value="">Activities</option>
+              )}
+            </select>
+          </div>
         </div>
-        <div>
-          <select name="name" id="" onChange={handleSelectTypes} className="selects_css">
-            <option value="">Activity</option>
-            {typesSave.length > 0 ? (
-              typesSave.map((types) => {
-                return (
-                  <option key={types.id} value={types.name}>
-                    {types.name}
-                  </option>
-                );
-              })
-            ) : (
-              <option value="">Activities</option>
-            )}
-          </select>
-        </div>
-      </div>
       </nav>
 
       <div className="pagination">

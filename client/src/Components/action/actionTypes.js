@@ -11,3 +11,6 @@ export const FILTER_ACTIVITY ="FILTER_ACTIVITY"
 export const SET_PAGE_BACK ="SET_PAGE_BACK"
 export const RESET_DETAIL = "RESET_DETAIL"
 export const FILTER_AREA = "FILTER_AREA"
+
+
+
